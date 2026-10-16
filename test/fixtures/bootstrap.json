@@ -1,0 +1,20 @@
+{
+  "_fixture": "FABRICATED — not captured from the live service. Shape mirrors the observed guest bootstrap response.",
+  "code": "000000",
+  "success": true,
+  "data": {
+    "config": {
+      "agentName": "Fabricated",
+      "supportedChains": ["5734951"],
+      "guestLimit": 10,
+      "newUserCredits": 300
+    },
+    "accessToken": "eyJhbGciOiJIUzI1NiJ9.fake-payload.sig-nature",
+    "tokenType": "GUEST",
+    "expiresAt": "2099-01-01T00:00:00Z",
+    "session": {
+      "id": "3f2504e0-4f89-11d3-9a0c-0305e82c3301",
+      "remainingQuota": 10
+    }
+  }
+}

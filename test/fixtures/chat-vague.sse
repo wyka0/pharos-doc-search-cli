@@ -1,0 +1,4 @@
+data:{"choices":[{"delta":{"reasoning_content":"Fabricated reasoning: nothing relevant found. "}}]}
+data:{"choices":[{"delta":{"content":"I don't have enough information about that to give you a reliable answer."}}]}
+data:{"choices":[{"delta":{},"finish_reason":"stop"}]}
+data:[DONE]

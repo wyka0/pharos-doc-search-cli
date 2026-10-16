@@ -1,0 +1,12 @@
+{
+  "_fixture": "FABRICATED — not captured from the live service.",
+  "code": "000000",
+  "data": [
+    {
+      "sessionId": "parent-session-fabricated-1",
+      "agentId": "fabricated-parent",
+      "spaceType": "pharos",
+      "name": "Fabricated session"
+    }
+  ]
+}

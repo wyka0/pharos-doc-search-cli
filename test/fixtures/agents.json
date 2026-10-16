@@ -1,0 +1,11 @@
+{
+  "_fixture": "FABRICATED — not captured from the live service.",
+  "code": "000000",
+  "data": {
+    "agents": [
+      { "agentType": "PHAROS_PERSONAL_AGENT", "chatSessionId": "chat-session-fabricated-general" },
+      { "agentType": "PHAROS_DOCS", "chatSessionId": "pharos-agent-3f2504e0-4f89-11d3-9a0c-0305e82c3301" },
+      { "agentType": "PHAROS_MCP", "chatSessionId": "chat-session-fabricated-chain" }
+    ]
+  }
+}

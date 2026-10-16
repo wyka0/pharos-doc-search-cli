@@ -1,0 +1,7 @@
+data:{"choices":[{"delta":{"reasoning_content":"Fabricated reasoning: looking this up in the Pharos docs. "}}]}
+data:{"choices":[{"delta":{"content":"To deploy a smart contract to Pharos Atlantic Testnet you use Hardhat with the `pharos` network alias.\n\n"}}]}
+data:{"choices":[{"delta":{"content":"1. Store the deployer key: `npx hardhat vars set PRIVATE_KEY`\n2. Deploy: `npx hardhat ignition deploy ./ignition/modules/Counter.js --network pharos`\n\n"}}]}
+data:{"choices":[{"delta":{"content":"**Source:** [Write Your First dApp (Hardhat)](https://docs.pharos.xyz/developer-guide/hardhat/write-your-first-dapp)"}}]}
+data:{"choices":[{"delta":{"content":", [Atlantic Testnet](https://docs.pharos.xyz/getting-started/network/atlantic-testnet)\n\n"}}]}
+data:{"choices":[{"delta":{"content":"Hardhat itself is documented at [hardhat.org](https://hardhat.org/hardhat-runner/docs/getting-started#installation)."},"finish_reason":"stop"}]}
+data:[DONE]
