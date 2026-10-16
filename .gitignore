@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+
+# Local authentication state (wallet keys, bearer tokens, sessions) — NEVER commit
+.local/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Local state files if --state-file points at the repo root.
+# NOTE: these are root-anchored on purpose — a bare `session.json` pattern would also
+# ignore test/fixtures/session.json, which IS tracked (it holds a fabricated token only).
+/session.json
+/wallet.json
+
+# Logs, coverage, build output
+*.log
+npm-debug.log*
+coverage/
+dist/
+build/
+*.tgz
+.nyc_output/
+
+# Editors / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

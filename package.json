@@ -1,0 +1,48 @@
+{
+  "name": "pharos-doc-search-cli",
+  "version": "1.0.0",
+  "private": true,
+  "description": "pharos-docs: a reliable command-line tool that answers Pharos developer questions from the live Pharos Developer Docs MCP, with source references and honest no-answer handling.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "pharos-docs": "./bin/pharos-docs.mjs"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "start": "node bin/pharos-docs.mjs",
+    "ask": "node bin/pharos-docs.mjs",
+    "test": "node --test \"test/*.test.mjs\"",
+    "check": "node scripts/check-syntax.mjs",
+    "verify": "npm run check && npm test",
+    "smoke": "node scripts/live-smoke.mjs",
+    "login": "node bin/pharos-docs.mjs --login"
+  },
+  "keywords": [
+    "pharos",
+    "docs-mcp",
+    "cli",
+    "documentation",
+    "agent-arena"
+  ],
+  "author": "wyka0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wyka0/pharos-doc-search-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/wyka0/pharos-doc-search-cli/issues"
+  },
+  "homepage": "https://github.com/wyka0/pharos-doc-search-cli#readme",
+  "dependencies": {
+    "viem": "2.57.7"
+  }
+}
