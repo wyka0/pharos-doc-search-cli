@@ -465,9 +465,16 @@ available** (from the same live run, `--json` form, abridged):
 }
 ```
 
+(the `sources` array above is exactly what that run reported in text mode as
+`other hosts mentioned in the answer (2)`; the object itself is abridged — omitted keys are
+`tool`, `version`, `question`, `hint`, `agent`, `finished`, `timedOut`, `interrupted`, `auth` and
+`durationMs`.)
+
 Nothing in that object is invented: `sources` holds exactly the two URLs the service wrote, and the
-`answer` field is its verbatim text. A script that only wants well-sourced documentation answers should
-add `--require-sources`, which makes *any* answer without a link exit 2 as well.
+`answer` field is its verbatim text. (The block is the `--json` *shape* of the same run — rendered
+here abridged with the `answer` field truncated; every value in it was produced by that run and its
+text-mode stdout is quoted byte-for-byte above.) A script that only wants well-sourced documentation
+answers should add `--require-sources`, which makes *any* answer without a link exit 2 as well.
 
 
 

@@ -22,9 +22,9 @@ $ npm run check
 21/21 files passed syntax check.
 
 $ npm test
-ℹ tests 86
+ℹ tests 87
 ℹ suites 0
-ℹ pass 86
+ℹ pass 87
 ℹ fail 0
 ℹ duration_ms 4856.5147
 ```
@@ -41,18 +41,68 @@ gate. There is no build step (`bin/` and `src/` are shipped as-is), so package v
 - One test failed when first written: `--debug` output was asserted to contain `Bearer <redacted>`,
   but the request trace records the header as JSON (`"authorization":"<redacted>"`). The assertion
   was corrected to match the real output (`test/cli.test.mjs`). No production code changed.
-- After the **live** run in §5 revealed a case the policy got wrong, two tests were added
-  (`test/answer.test.mjs`) and the count went from 84 to 86. See §5.2 — the failure is documented
-  there in full.
+- After the **live** run in §4 revealed a case the policy got wrong, two tests were added
+  (`test/answer.test.mjs`), taking the count from 84 to 86; the fixture-completeness guard described
+  below took it to 87. See §4.1 — the failure is documented there in full.
+- A real packaging bug was found during the secret/sensitive-file scan: `.gitignore` contained a bare
+  `session.json` pattern (intended for local state), which also excluded the tracked fixture
+  `test/fixtures/session.json`. The file existed locally, so `npm test` passed here — but a fresh
+  clone would have been missing a fixture. The pattern is now root-anchored (`/session.json`) and a
+  regression test asserts that every fixture the suite depends on is present
+  (`test/redact.test.mjs`, test 87). This is exactly the kind of failure the clean-clone check below
+  exists to catch.
 
-### Coverage of the mocked suite (86 tests, 6 files)
+### Clean-clone verification
+
+```text
+$ git clone <this repository> …\clone-check
+$ cd …\clone-check && npm ci && npm run check && npm test
+HEAD=6c7bb3e
+files=36
+added 13 packages in 3m
+21/21 files passed syntax check.
+ℹ tests 87
+ℹ pass 87
+ℹ fail 0
+
+$ node bin/pharos-docs.mjs --version
+pharos-docs 1.0.0
+
+$ node bin/pharos-docs.mjs "How do I deploy a contract?"
+error: not signed in to the Pharos Docs MCP
+hint: Anonymous guest sessions are refused by the Docs MCP (HTTP 401). Run `pharos-docs --login` once, or set PHAROS_ACCESS_TOKEN.
+exit=3
+
+$ node bin/pharos-docs.mjs --json "How do I deploy a contract?"
+{
+  "tool": "pharos-docs",
+  "version": "1.0.0",
+  "question": "How do I deploy a contract?",
+  "status": "error",
+  "error": {
+    "kind": "auth",
+    "message": "not signed in to the Pharos Docs MCP",
+    "hint": "Anonymous guest sessions are refused by the Docs MCP (HTTP 401). Run `pharos-docs --login` once, or set PHAROS_ACCESS_TOKEN.",
+    "httpStatus": null,
+    "code": null
+  },
+  "exitCode": 3
+}
+exit=3
+```
+
+This proves three things a local run cannot: every fixture the suite needs is actually tracked, no
+test depends on local authentication state (`.local/` is absent), and a first-time user with no
+session gets an actionable message and exit code 3 instead of a stack trace.
+
+### Coverage of the mocked suite (87 tests, 7 files)
 
 | File | What it pins down |
 | --- | --- |
 | `test/sse.test.mjs` (7) | chunk boundaries, CRLF, comment/heartbeat lines, `event:`/`id:` fields, malformed JSON frames (skipped and counted), final partial line, interrupted stream, `[DONE]` |
 | `test/sources.test.mjs` (9) | byte-for-byte URL preservation, fragments/query strings, multi-link answers, dedup order, images and code-fence examples excluded, bare URLs, empty source list, host classification, formatting |
 | `test/answer.test.mjs` (14) | the whole decision table: supported answer, no-source note, `--require-sources`, first-person inability, curly apostrophes, documentation-gap vs. answer-with-gap, empty text, deadline, interrupted stream, partial answer, service error frame |
-| `test/redact.test.mjs` (6) | JWTs, UUIDs, bearer headers, 32-byte hex keys, nested credential keys, header records, fixture redaction |
+| `test/redact.test.mjs` (7) | JWTs, UUIDs, bearer headers, 32-byte hex keys, nested credential keys, header records, fixture redaction, fixture-completeness guard |
 | `test/client.test.mjs` (18) | bootstrap headers/body, 403 mapping, chat session resolution (widget session rejected), body/header contract, no-session refusal, 401 mapping, network rejection, deadline with and without text, interrupted stream, malformed frames, error frames, empty body, malformed JSON control response, missing agent, session-id caching, token never traced, custom agent id |
 | `test/cli.test.mjs` (25) | help/version/usage errors, answer + grouped sources, `--json`, joined positional words, no-answer (exit 2), `--require-sources`, not-signed-in (exit 3), 401, network failure, timeout with/without text, error frame, interrupted stream, `--debug` redaction, `--json --debug`, machine-readable errors, `PHAROS_ACCESS_TOKEN`, the whole `--login` handshake incl. secret-free output |
 | `test/cli-process.test.mjs` (7) | the real `bin/pharos-docs.mjs` in a child process: argv forwarding, stdout/stderr separation, exit codes 0/3/4, `--json` on a missing session |
@@ -362,6 +412,9 @@ $ git status --short --ignored | Select-String ".local|node_modules"
 
 ## 8. Repository state at verification time
 
-See §"Final report" in the conversation / `git log` for the committed state: branch `main`,
-committer `wyka0 <149968432+wyka0@users.noreply.github.com>`, working tree clean, with `.local/` and
-`node_modules/` ignored.
+The live checks in §3–§5 were run against the working tree committed as **`6c7bb3e`** on branch
+`main` (36 tracked files, working tree clean). Committer:
+`wyka0 <149968432+wyka0@users.noreply.github.com>`. This document was updated afterwards to record the
+results, so `git log` on `main` ends with the documentation commit — the code state those results
+describe is the one identified above. `.local/` (wallet + session token) and `node_modules/` are
+ignored and never committed.
