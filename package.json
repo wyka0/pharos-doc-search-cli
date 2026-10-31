@@ -22,7 +22,8 @@
     "ask": "node bin/pharos-docs.mjs",
     "test": "node --test \"test/*.test.mjs\"",
     "check": "node scripts/check-syntax.mjs",
-    "verify": "npm run check && npm test",
+    "check:rpc": "node scripts/check-rpc-methods.mjs",
+    "verify": "npm run check:rpc && npm run check && npm test",
     "smoke": "node scripts/live-smoke.mjs",
     "login": "node bin/pharos-docs.mjs --login"
   },
