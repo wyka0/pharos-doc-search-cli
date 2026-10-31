@@ -72,11 +72,16 @@ const SELF_PATH = fileURLToPath(import.meta.url);
 // files that may intentionally contain deprecated-method references. The
 // exact file name is required; look-alike paths (nested directories, src/)
 // are NOT exempt.
-const DEPRECATION_TEST_FILE_PATTERN = /^(?:test|tests)\/rpc-deprecation\.test\.(?:ts|mjs)$/;
+// Keep full paths explicit; directory/extension combinations are not interchangeable.
+const DEPRECATION_TEST_FILES = new Set([
+  "test/rpc-deprecation.test.ts",
+  "test/rpc-deprecation.test.mjs",
+  "tests/rpc-deprecation.test.ts",
+]);
 
 /** True for the dedicated RPC deprecation guard test files (exact path). */
 export function isDeprecationTestFile(relativePath) {
-  return DEPRECATION_TEST_FILE_PATTERN.test(relativePath.split(/[\\/]+/).join("/"));
+  return DEPRECATION_TEST_FILES.has(relativePath.replaceAll("\\", "/"));
 }
 
 /** True when a repository-relative path is first-party executable code. */
